@@ -35,8 +35,13 @@ public class Main {
 			System.out.println("6 - Mostrar la cantidad total de jugadores que tiene el ArrayList");
 			System.out.println("7 - Mostrar la cantidad de jugadores que pertenecen a una nacionalidad");
 			System.out.println("8 - Salir");
-			System.out.println("\nIngrese una opcion:");
-			opcion = scanner.nextShort();
+			try {
+				System.out.println("\nIngrese una opcion:");
+				opcion = scanner.nextShort();
+			}catch(java.util.InputMismatchException ex){
+				System.out.println("ERROR - Ingrese un tipo de dato entero");
+				break;
+			}
 			switch (opcion) {
 				case 1:
 					System.out.println("Caso1");
@@ -46,6 +51,13 @@ public class Main {
 					apellido = scanner.next();
 					System.out.println("Ingrese Fecha de nacimiento (dd/MM/yyyy)");
 					fechaString = scanner.next();
+					try {
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+						LocalDate fechaNac = LocalDate.parse(fechaString, formatter);
+					}catch(java.time.format.DateTimeParseException ex){
+						System.out.println("Formato de fecha no valido");
+						break;
+					}
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					LocalDate fechaNac = LocalDate.parse(fechaString, formatter);
 					System.out.println("Ingrese Nacionalidad");
@@ -87,6 +99,13 @@ public class Main {
 						if (l.getNombre().equals(nombre) && l.getApellido().equals(apellido)) {
 							System.out.println("Ingrese Nueva Fecha de nacimiento (dd/MM/yyyy)");
 							fechaString = scanner.next();
+							try {
+								formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+								fechaNac = LocalDate.parse(fechaString, formatter);
+							}catch(java.time.format.DateTimeParseException ex) {
+								System.out.println("Formato de fecha no valido");
+								break;
+							}
 							formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 							fechaNac = LocalDate.parse(fechaString, formatter);
 							System.out.println("Ingrese Nueva Nacionalidad");
@@ -140,7 +159,7 @@ public class Main {
 					System.out.println("Saliendo...");
 					break;
 				default:
-					System.out.println("Error");
+					System.out.println("Error ingrese una opcion valida");
 			}
 		}
 	}
